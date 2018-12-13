@@ -44,4 +44,10 @@ public class HelloRestController {
         CustomObject customObject = ( CustomObject ) session.getAttribute( "custom-object" );
         return customObject.toString();
     }
+
+    @GetMapping("/expire")
+    String logout(HttpSession session) {
+        session.invalidate();
+        return "service-1 logged out";
+    }
 }

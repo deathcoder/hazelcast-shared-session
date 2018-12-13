@@ -114,4 +114,23 @@ public class HelloRestController {
 
     }
 
+    @GetMapping("/service-1/expire")
+    String service1Logout(HttpSession session, @RequestHeader("Cookie") String cookie ) {
+        // create an http request to another service propagating session id
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        logger.info( "adding cookie [{}] to service-1 call", cookie );
+        headers.set("Cookie", cookie);
+        URI uri = URI.create( "http://localhost:8082/expire" );
+        RequestEntity<Object> request = new RequestEntity<>( headers, HttpMethod.GET, uri );
+        String result = restTemplate.exchange( request, String.class ).getBody();
+        if( result.contains( "login" )) {
+            logger.info( "service-1 sent the login page" );
+            return result;
+        }
+        logger.info( "service-1 logged out" );
+        return result;
+
+    }
+
 }

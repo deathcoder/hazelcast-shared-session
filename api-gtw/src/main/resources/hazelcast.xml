@@ -11,6 +11,11 @@
 		</indexes>
 	</map>
 
+    <user-code-deployment enabled="true">
+        <class-cache-mode>ETERNAL</class-cache-mode>
+        <provider-mode>LOCAL_CLASSES_ONLY</provider-mode>
+    </user-code-deployment>
+
     <management-center enabled="true">http://localhost:8081/hazelcast-mancenter</management-center>
 
 	<network>
