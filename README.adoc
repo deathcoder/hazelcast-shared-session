@@ -35,3 +35,6 @@ Reproduce:
 
  - At this point a deserialization exception is thrown on the api-gtw
 
+
+First working solution using user code deployment as suggested here: https://stackoverflow.com/a/53750342/4349619
+and documented here: https://docs.hazelcast.org/docs/3.11/manual/html-single/index.html#member-user-code-deployment-beta
