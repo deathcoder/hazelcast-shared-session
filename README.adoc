@@ -1,0 +1,27 @@
+Microservices Shared Session using Hazelcast
+
+API-GTW logs user in and generates a per-user session identifier propagated to every service.
+
+Every service that uses a session retrieves it by using the generated identifier.
+
+Services should be able to store and retrieve custom objects without sharing dependencies (classes) with other microservices.
+ -> the session object might be lazily deserialized.
+
+The session should expire at the same time for all services.
+
+Any access to the session by a microservice should extend the session duration.
+
+Issue:
+
+ - Deserialization exception upon insertion of an object of a class that is not shared
+
+Reproduce:
+ - Start api-gtw (from api-gtw folder): mvn spring-boot:run
+ - Start service-1 (from service-1 folder): mvn spring-boot:run
+ - navigate http://localhost:8080/login and login using the following credentials: user:password
+ - this api always return the current session id http://localhost:8080/ and increases a counter in session
+ - this api returns the session's current counter value: http://localhost:8080/counter
+ - requests under /service-1 are forwarded to service-1
+ - when logged in a request to http://localhost:8080/service-1/counter returns the current session's counter
+ - when logged in a request to http://localhost:8080/service-1 returns the session id and puts a CustomObject into the session
+ - At this point a deserialization exception is thrown on the api-gtw
